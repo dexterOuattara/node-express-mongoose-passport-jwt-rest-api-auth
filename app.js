@@ -10,9 +10,15 @@ var passport = require('passport');
 var cors = require('cors');
 var config = require('./config/database');
 
-mongoose.connect(config.database, { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(config.database, { useCreateIndex: true, useNewUrlParser: true });
 
-var api = require('./routes/api');
+// var api = require('./routes/api');
+var users = require('./routes/users');
+var books = require('./routes/books');
+var langs = require('./routes/langs');
+var occupations = require('./routes/occupation');
+var interests = require('./routes/interest');
+var appreciations = require('./routes/appreciation');
 
 var app = express();
 
@@ -32,11 +38,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(morgan('dev'));
 app.use(passport.initialize());
 
-app.get('/', function(req, res) {
-  res.send('Page under construction.');
-});
+app.get('/', function (req, res) {
+  res.render('../views/index')
+})
 
-app.use('/api', api);
+// app.use('/api', api);
+
+app.use('/users', users);
+
+app.use('/books', books);
+
+app.use('/langs', langs);
+
+app.use('/occupations', occupations);
+
+app.use('/interests', interests);
+
+app.use('/appreciations', appreciations);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
